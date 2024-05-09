@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model canchas {
+  IDCancha       Int        @id @default(autoincrement())
+  Nombre         String?    @db.VarChar(50)
+  Descripcion    String?    @db.Text
+  TipoSuperficie String?    @db.VarChar(50)
+  Disponibilidad Int?       @db.TinyInt
+  Precio         Decimal?   @db.Decimal(10, 2)
+  reservas       reservas[]
+}
+
+model facturas {
+  IDFactura    Int       @id @default(autoincrement())
+  IDReserva    Int?
+  MontoTotal   Decimal?  @db.Decimal(10, 2)
+  FechaEmision DateTime? @db.Date
+  EstadoPago   String?   @db.VarChar(20)
+  reservas     reservas? @relation(fields: [IDReserva], references: [IDReserva], onDelete: NoAction, onUpdate: NoAction, map: "facturas_ibfk_1")
+
+  @@index([IDReserva], map: "IDReserva")
+}
+
+model notificaciones {
+  IDNotificacion Int       @id @default(autoincrement())
+  IDUsuario      Int?
+  Tipo           String?   @db.VarChar(20)
+  Mensaje        String?   @db.Text
+  FechaHoraEnvio DateTime? @db.DateTime(0)
+  usuarios       usuarios? @relation(fields: [IDUsuario], references: [IDUsuario], onDelete: NoAction, onUpdate: NoAction, map: "notificaciones_ibfk_1")
+
+  @@index([IDUsuario], map: "IDUsuario")
+}
+
+model reservas {
+  IDReserva              Int                      @id @default(autoincrement())
+  IDUsuario              Int?
+  IDCancha               Int?
+  Fecha                  DateTime?                @db.Date
+  HoraInicio             DateTime?                @db.Time(0)
+  Duracion               Int?
+  Estado                 String?                  @db.VarChar(20)
+  MetodoPago             String?                  @db.VarChar(50)
+  MontoPagado            Decimal?                 @db.Decimal(10, 2)
+  facturas               facturas[]
+  usuarios               usuarios?                @relation(fields: [IDUsuario], references: [IDUsuario], onDelete: NoAction, onUpdate: NoAction, map: "reservas_ibfk_1")
+  canchas                canchas?                 @relation(fields: [IDCancha], references: [IDCancha], onDelete: NoAction, onUpdate: NoAction, map: "reservas_ibfk_2")
+  suministrosadicionales suministrosadicionales[]
+
+  @@index([IDCancha], map: "IDCancha")
+  @@index([IDUsuario], map: "IDUsuario")
+}
+
+model suministrosadicionales {
+  IDSuministro   Int       @id @default(autoincrement())
+  IDReserva      Int?
+  TipoSuministro String?   @db.VarChar(50)
+  Cantidad       Int?
+  CostoUnitario  Decimal?  @db.Decimal(10, 2)
+  Total          Decimal?  @db.Decimal(10, 2)
+  reservas       reservas? @relation(fields: [IDReserva], references: [IDReserva], onDelete: NoAction, onUpdate: NoAction, map: "suministrosadicionales_ibfk_1")
+
+  @@index([IDReserva], map: "IDReserva")
+}
+
+model usuarios {
+  IDUsuario         Int              @id @default(autoincrement())
+  Nombre            String?          @db.VarChar(50)
+  Apellido          String?          @db.VarChar(50)
+  CorreoElectronico String?          @db.VarChar(100)
+  Contrase_a        String?          @map("Contraseña") @db.VarChar(50)
+  Telefono          String?          @db.VarChar(15)
+  Rol               String?          @db.VarChar(20)
+  DatosPago         String?          @db.VarChar(100)
+  notificaciones    notificaciones[]
+  reservas          reservas[]
+}
