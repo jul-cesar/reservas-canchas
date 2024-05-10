@@ -1,3 +1,5 @@
+import { Estado, MetodoPago } from "@prisma/client";
+
 export interface Reserva {
   IDReserva: number;
   IDUsuario: number;
@@ -5,7 +7,8 @@ export interface Reserva {
   Fecha: Date;
   HoraInicio: Date;
   Duracion: number;
-  Estado: string;
-  MetodoPago: string;
+  Estado: Estado;
+  MetodoPago: MetodoPago;
+  suministrosadicionales: [number]
   MontoPagado: number;
 }

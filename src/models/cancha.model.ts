@@ -1,8 +1,10 @@
+import { TipoSuperficie, Disponibilidad } from "@prisma/client";
+
 export interface Cancha {
   IDCancha: number;
   Nombre: string;
   Descripcion: string;
-  TipoSuperficie: string;
-  Disponibilidad: number;
+  TipoSuperficie: TipoSuperficie;
+  Disponibilidad: Disponibilidad;
   precio: number;
 }
