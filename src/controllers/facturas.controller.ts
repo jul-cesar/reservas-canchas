@@ -1,5 +1,8 @@
 import { Request, Response } from "express";
-import { consultarFacturasReserva, consultarTodasLasFacturas } from "../services/facturas";
+import {
+  consultarFacturasReserva,
+  consultarTodasLasFacturas,
+} from "../services/facturas";
 
 export const consultarFacturasReservaController = async (
   req: Request,

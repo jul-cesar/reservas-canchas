@@ -9,6 +9,7 @@ export const crearCancha = async (data: Cancha) => {
 };
 export const obtenerTodasLasCanchas = async () => {
   const canchasEncontrada = await prisma.canchas.findMany();
+  console.log("Canchas get")
   return canchasEncontrada;
 };
 

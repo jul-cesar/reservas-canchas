@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -29,13 +29,13 @@ enum Disponibilidad {
 
 model facturas {
   IDFactura    Int        @id @default(autoincrement())
-  IDReserva    Int?
+  IDReserva    Int?       @unique
   MontoTotal   Decimal?   @db.Decimal(10, 3)
-  FechaEmision DateTime?  @default(now()) @db.DateTime(0)
+  FechaEmision DateTime?  @default(now()) 
   EstadoPago   EstadoPago
   reservas     reservas?  @relation(fields: [IDReserva], references: [IDReserva], onDelete: NoAction, onUpdate: NoAction, map: "facturas_ibfk_1")
 
-  @@index([IDReserva], map: "IDReserva")
+  
 }
 
 enum EstadoPago {
@@ -48,10 +48,10 @@ model notificaciones {
   IDUsuario      Int?
   Tipo           Tipo
   Mensaje        String?   @db.Text
-  FechaHoraEnvio DateTime  @default(now()) @db.DateTime(0)
+  FechaHoraEnvio DateTime  @default(now()) 
   usuarios       usuarios? @relation(fields: [IDUsuario], references: [IDUsuario], onDelete: NoAction, onUpdate: NoAction, map: "notificaciones_ibfk_1")
 
-  @@index([IDUsuario], map: "IDUsuario")
+ 
 }
 
 enum Tipo {
@@ -64,8 +64,8 @@ model reservas {
   IDReserva              Int                      @id @default(autoincrement())
   IDUsuario              Int
   IDCancha               Int
-  Fecha                  DateTime                 @default(now()) @db.DateTime(0)
-  HoraInicio             DateTime                 @db.DateTime(0)
+  Fecha                  DateTime                 @default(now()) 
+  HoraInicio             DateTime                @default(now())
   Duracion               Int?
   Estado                 Estado
   MetodoPago             MetodoPago
