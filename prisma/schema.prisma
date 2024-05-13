@@ -9,11 +9,12 @@ datasource db {
 
 model canchas {
   IDCancha       Int            @id @default(autoincrement())
-  Nombre         String?        @db.VarChar(50)
-  Descripcion    String?        @db.Text
+  Nombre         String       @db.VarChar(50)
+  ImgURL         String?
+  Descripcion    String        @db.Text
   TipoSuperficie TipoSuperficie
   Disponibilidad Disponibilidad
-  Precio         Decimal?       @db.Decimal(10, 3)
+  Precio         Decimal      @db.Decimal(10, 3)
   reservas       reservas[]
 }
 
@@ -47,7 +48,7 @@ model notificaciones {
   IDNotificacion Int       @id @default(autoincrement())
   IDUsuario      Int?
   Tipo           Tipo
-  Mensaje        String?   @db.Text
+  Mensaje        String   @db.Text
   FechaHoraEnvio DateTime  @default(now()) 
   usuarios       usuarios? @relation(fields: [IDUsuario], references: [IDUsuario], onDelete: NoAction, onUpdate: NoAction, map: "notificaciones_ibfk_1")
 

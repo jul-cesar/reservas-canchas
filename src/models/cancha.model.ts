@@ -4,7 +4,8 @@ export interface Cancha {
   IDCancha: number;
   Nombre: string;
   Descripcion: string;
+  ImgURL?: string
   TipoSuperficie: TipoSuperficie;
   Disponibilidad: Disponibilidad;
-  precio: number;
+  Precio: number;
 }
