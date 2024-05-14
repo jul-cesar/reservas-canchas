@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "canchas" ALTER COLUMN "Contacto" SET DATA TYPE TEXT,
+ALTER COLUMN "Dimensiones" SET DATA TYPE TEXT;

@@ -35,14 +35,15 @@ export const crearReserva = async (data: Reserva): Promise<responseReserva> => {
     data: {
       IDUsuario: data.IDUsuario,
       IDCancha: data.IDCancha,
-      Fecha: data.Fecha,
+
       HoraInicio: data.HoraInicio,
       Duracion: data.Duracion,
       Estado: data.Estado,
       MetodoPago: data.MetodoPago,
       MontoPagado: data.MontoPagado,
+
       suministrosadicionales: {
-        connect: data.suministrosadicionales.map((id) => ({
+        connect: data?.suministrosadicionales?.map((id) => ({
           IDSuministro: id,
         })),
       },

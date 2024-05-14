@@ -8,14 +8,20 @@ datasource db {
 }
 
 model canchas {
-  IDCancha       Int            @id @default(autoincrement())
-  Nombre         String       @db.VarChar(50)
-  ImgURL         String?
-  Descripcion    String        @db.Text
-  TipoSuperficie TipoSuperficie
-  Disponibilidad Disponibilidad
-  Precio         Decimal      @db.Decimal(10, 3)
-  reservas       reservas[]
+  IDCancha        Int            @id @default(autoincrement())
+  Nombre          String
+  ImgURL          String?
+  Direccion       String
+  HoraApertura    String
+  Dimensiones     String
+  Contacto        String
+  HoraCierre      String
+  Descripcion     String
+  CapacidadMaxima Int
+  TipoSuperficie  TipoSuperficie
+  Disponibilidad  Disponibilidad
+  Precio          Decimal        @db.Decimal(10, 3)
+  reservas        reservas[]
 }
 
 enum TipoSuperficie {
@@ -32,11 +38,9 @@ model facturas {
   IDFactura    Int        @id @default(autoincrement())
   IDReserva    Int?       @unique
   MontoTotal   Decimal?   @db.Decimal(10, 3)
-  FechaEmision DateTime?  @default(now()) 
+  FechaEmision DateTime?  @default(now())
   EstadoPago   EstadoPago
-  reservas     reservas?  @relation(fields: [IDReserva], references: [IDReserva], onDelete: NoAction, onUpdate: NoAction, map: "facturas_ibfk_1")
-
-  
+  reservas     reservas?  @relation(fields: [IDReserva], references: [IDReserva], onDelete: Cascade, onUpdate: NoAction, map: "facturas_ibfk_1")
 }
 
 enum EstadoPago {
@@ -48,11 +52,9 @@ model notificaciones {
   IDNotificacion Int       @id @default(autoincrement())
   IDUsuario      Int?
   Tipo           Tipo
-  Mensaje        String   @db.Text
-  FechaHoraEnvio DateTime  @default(now()) 
+  Mensaje        String
+  FechaHoraEnvio DateTime  @default(now())
   usuarios       usuarios? @relation(fields: [IDUsuario], references: [IDUsuario], onDelete: NoAction, onUpdate: NoAction, map: "notificaciones_ibfk_1")
-
- 
 }
 
 enum Tipo {
@@ -65,9 +67,9 @@ model reservas {
   IDReserva              Int                      @id @default(autoincrement())
   IDUsuario              Int
   IDCancha               Int
-  Fecha                  DateTime                 @default(now()) 
-  HoraInicio             DateTime                @default(now())
-  Duracion               Int?
+  FechaInicio            DateTime                 @default(now())
+  HoraInicio             String
+  Duracion               Int
   Estado                 Estado
   MetodoPago             MetodoPago
   MontoPagado            Decimal?                 @db.Decimal(10, 3)
