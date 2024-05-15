@@ -7,6 +7,8 @@ export interface Reserva {
   FechaCreacion: Date;
   FechaReserva: Date;
   HoraInicio: string;
+  HoraFinalizacion: string;
+
   Duracion: number;
   Estado: Estado;
   MetodoPago: MetodoPago;

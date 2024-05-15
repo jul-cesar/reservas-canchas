@@ -55,6 +55,7 @@ export const crearReserva = async (data: Reserva): Promise<responseReserva> => {
       Duracion: data.Duracion,
       Estado: data.Estado,
       MetodoPago: data.MetodoPago,
+      HoraFinalizacion: data.HoraFinalizacion,
       MontoPagado: data.MontoPagado,
 
       suministrosadicionales: {
