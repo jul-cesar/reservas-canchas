@@ -28,21 +28,64 @@ interface responseReserva {
 }
 export const crearReserva = async (data: Reserva): Promise<responseReserva> => {
   const verificarCancha = await obtenerUnaCancha(data.IDCancha);
-  console.log(verificarCancha?.reservas)
+  console.log(verificarCancha?.reservas);
+
+  const [horaInicioNueva, minutoInicioNueva, segundoInicioNueva] =
+    data.HoraInicio.split(":").map(Number);
+  const [horaFinalNueva, minutoFinalNueva, segundoFinalNueva] =
+    data.HoraFinalizacion.split(":").map(Number);
   const fechaReserva = new Date(data.FechaReserva);
-  const horaInicioReserva = new Date(`${data.FechaReserva}T${data.HoraInicio}`);
+
+  const horaInicioNuevaReserva = new Date(fechaReserva);
+  horaInicioNuevaReserva.setHours(
+    horaInicioNueva,
+    minutoInicioNueva,
+    segundoInicioNueva,
+    0
+  );
+
+  const horaFinalNuevaReserva = new Date(fechaReserva);
+  horaFinalNuevaReserva.setHours(
+    horaFinalNueva,
+    minutoFinalNueva,
+    segundoFinalNueva,
+    0
+  );
 
   for (let reserva of verificarCancha?.reservas ?? []) {
     const fechaReservaExistente = new Date(reserva.FechaReserva);
-    const horaInicioReservaExistente = new Date(`${reserva.FechaReserva}T${reserva.HoraInicio}`);
-    console.log(fechaReserva, reserva.FechaReserva)
-    console.log(reserva.HoraInicio, data.HoraInicio)
+    const [horaInicioExistente, minutoInicioExistente, segundoInicioExistente] =
+      reserva.HoraInicio.split(":").map(Number);
+    const [horaFinalExistente, minutoFinalExistente, segundoFinalExistente] =
+      reserva.HoraFinalizacion.split(":").map(Number);
 
-    if (
-      fechaReserva.getTime() === fechaReservaExistente.getTime() &&
-      reserva.HoraInicio === data.HoraInicio
-    ) {
-      return { message: "Cancha ya reservada" };
+    const horaInicioReservaExistente = new Date(fechaReservaExistente);
+    horaInicioReservaExistente.setHours(
+      horaInicioExistente,
+      minutoInicioExistente,
+      segundoInicioExistente,
+      0
+    );
+
+    const horaFinalReservaExistente = new Date(fechaReservaExistente);
+    horaFinalReservaExistente.setHours(
+      horaFinalExistente,
+      minutoFinalExistente,
+      segundoFinalExistente,
+      0
+    );
+
+    // Verificar si las fechas coinciden
+    if (fechaReserva.getTime() === fechaReservaExistente.getTime()) {
+      // Verificar si hay solapamiento de intervalos
+      if (
+        horaInicioNuevaReserva < horaFinalReservaExistente &&
+        horaFinalNuevaReserva > horaInicioReservaExistente
+      ) {
+        return {
+          message: "Cancha ya reservada en el intervalo de tiempo seleccionado",
+        };
+      }
     }
   }
 

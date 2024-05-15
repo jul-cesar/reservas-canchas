@@ -71,7 +71,7 @@ model reservas {
   FechaReserva           DateTime
   HoraInicio             String
   HoraFinalizacion       String
-  Duracion               Int?
+  Duracion               Int?                     @default(0)
   Estado                 Estado
   MetodoPago             MetodoPago
   MontoPagado            Decimal?                 @db.Decimal(10, 3)
