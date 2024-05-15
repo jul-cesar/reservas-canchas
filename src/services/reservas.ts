@@ -28,9 +28,24 @@ interface responseReserva {
 }
 export const crearReserva = async (data: Reserva): Promise<responseReserva> => {
   const verificarCancha = await obtenerUnaCancha(data.IDCancha);
-  if (verificarCancha?.Disponibilidad == "NoDisponible") {
-    return { message: "Cancha ya reservada" };
+  console.log(verificarCancha?.reservas)
+  const fechaReserva = new Date(data.FechaReserva);
+  const horaInicioReserva = new Date(`${data.FechaReserva}T${data.HoraInicio}`);
+
+  for (let reserva of verificarCancha?.reservas ?? []) {
+    const fechaReservaExistente = new Date(reserva.FechaReserva);
+    const horaInicioReservaExistente = new Date(`${reserva.FechaReserva}T${reserva.HoraInicio}`);
+    console.log(fechaReserva, reserva.FechaReserva)
+    console.log(reserva.HoraInicio, data.HoraInicio)
+
+    if (
+      fechaReserva.getTime() === fechaReservaExistente.getTime() &&
+      reserva.HoraInicio === data.HoraInicio
+    ) {
+      return { message: "Cancha ya reservada" };
+    }
   }
+
   const nuevaReserva = await prisma.reservas.create({
     data: {
       IDUsuario: data.IDUsuario,

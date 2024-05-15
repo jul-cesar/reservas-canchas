@@ -6,7 +6,6 @@ export interface Reserva {
   IDCancha: number;
   FechaCreacion: Date;
   FechaReserva: Date;
-
   HoraInicio: string;
   Duracion: number;
   Estado: Estado;
