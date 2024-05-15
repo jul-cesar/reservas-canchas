@@ -35,7 +35,7 @@ export const crearReserva = async (data: Reserva): Promise<responseReserva> => {
     data: {
       IDUsuario: data.IDUsuario,
       IDCancha: data.IDCancha,
-
+      FechaReserva: data.FechaReserva,
       HoraInicio: data.HoraInicio,
       Duracion: data.Duracion,
       Estado: data.Estado,

@@ -4,11 +4,13 @@ export interface Reserva {
   IDReserva: number;
   IDUsuario: number;
   IDCancha: number;
- FechaInicio: Date
+  FechaCreacion: Date;
+  FechaReserva: Date;
+
   HoraInicio: string;
   Duracion: number;
   Estado: Estado;
   MetodoPago: MetodoPago;
-  suministrosadicionales: [number]
+  suministrosadicionales: [number];
   MontoPagado: number;
 }

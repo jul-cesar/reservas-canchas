@@ -67,7 +67,8 @@ model reservas {
   IDReserva              Int                      @id @default(autoincrement())
   IDUsuario              Int
   IDCancha               Int
-  FechaInicio            DateTime                 @default(now())
+  FechaCreacion          DateTime                 @default(now())
+  FechaReserva           DateTime
   HoraInicio             String
   Duracion               Int
   Estado                 Estado
