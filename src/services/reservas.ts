@@ -128,7 +128,6 @@ export const crearReserva = async (data: Reserva): Promise<responseReserva> => {
       EstadoPago: "Pendiente",
     },
   });
-  await editarUnaCancha(data.IDCancha, { Disponibilidad: "NoDisponible" });
 
   await prisma.notificaciones.create({
     data: {
@@ -139,4 +138,17 @@ export const crearReserva = async (data: Reserva): Promise<responseReserva> => {
   });
 
   return { message: "Reserva creada", response: nuevaReserva };
+};
+
+export const obtenerReservasCancha = async (IDCancha: number) => {
+  const reservasCancha = await prisma.reservas.findMany({
+    where: { IDCancha },
+    include: {
+      suministrosadicionales: true,
+      canchas: true,
+      facturas: true,
+      usuarios: true
+    },
+  });
+  return reservasCancha;
 };
