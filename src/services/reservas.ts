@@ -147,8 +147,24 @@ export const obtenerReservasCancha = async (IDCancha: number) => {
       suministrosadicionales: true,
       canchas: true,
       facturas: true,
-      usuarios: true
+      usuarios: true,
     },
   });
   return reservasCancha;
+};
+export const updateReserva = async (id: number, data: Partial<Reserva>) => {
+  const updatedReserva = await prisma.reservas.update({
+    where: { IDReserva: id },
+    data: {
+      ...data,
+      suministrosadicionales: data.suministrosadicionales
+        ? {
+            set: data.suministrosadicionales.map((id) => ({
+              IDSuministro: id,
+            })),
+          }
+        : undefined,
+    },
+  });
+  return updatedReserva;
 };

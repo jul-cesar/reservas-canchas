@@ -8,8 +8,9 @@ datasource db {
 }
 
 model canchas {
-  IDCancha        Int            @id @default(autoincrement())
-  Nombre          String
+  IDCancha  Int      @id @default(autoincrement())
+  Nombre    String
+  createdAt DateTime @default(now())
   ImgURL          String?
   Direccion       String
   HoraApertura    String
@@ -102,7 +103,7 @@ model suministrosadicionales {
   TipoSuministro String?   @db.VarChar(50)
   Cantidad       Int?
   CostoUnitario  Decimal?  @db.Decimal(10, 3)
-  reservas       reservas? @relation(fields: [IDReserva], references: [IDReserva], onDelete: NoAction, onUpdate: NoAction, map: "suministrosadicionales_ibfk_1")
+  reservas       reservas? @relation(fields: [IDReserva], references: [IDReserva], onDelete: SetNull, onUpdate: Cascade, map: "suministrosadicionales_ibfk_1")
 
   @@index([IDReserva], map: "IDReserva")
 }

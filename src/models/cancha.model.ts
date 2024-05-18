@@ -5,6 +5,7 @@ export interface Cancha {
   Nombre: string;
   Descripcion: string;
   ImgURL?: string;
+  createdAt?: Date
   TipoSuperficie: TipoSuperficie;
   Disponibilidad: Disponibilidad;
   Precio: number;

@@ -12,6 +12,6 @@ export interface Reserva {
   Duracion: number;
   Estado: Estado;
   MetodoPago: MetodoPago;
-  suministrosadicionales: [number];
+  suministrosadicionales: number[];
   MontoPagado: number;
 }

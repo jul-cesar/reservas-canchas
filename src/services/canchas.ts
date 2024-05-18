@@ -8,10 +8,13 @@ export const crearCancha = async (data: Cancha) => {
   return nuevaCancha;
 };
 export const obtenerTodasLasCanchas = async () => {
-  const canchasEncontrada = await prisma.canchas.findMany();
+  const canchasEncontrada = await prisma.canchas.findMany({
+    orderBy: { createdAt: "desc" },
+  });
   const canchasFormated = canchasEncontrada.map((p) => ({
     ...p,
-    Precio: p.Precio.toFixed(3), // Convert the price from string to a Decimal instance
+    Precio: p.Precio.toFixed(3),
+    // Convert the price from string to a Decimal instance
   }));
   return canchasFormated;
 };
@@ -36,7 +39,7 @@ export const editarUnaCancha = async (id: number, data: Partial<Cancha>) => {
 
 export const eliminarCancha = async (id: number) => {
   const canchaEliminada = await prisma.canchas.delete({
-    where: { IDCancha: id},
+    where: { IDCancha: id },
   });
   return canchaEliminada;
 };
