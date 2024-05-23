@@ -22,6 +22,49 @@ export const obtenerReservas = async () => {
   return todasLasReservas;
 };
 
+export const obtenerUnaReserva = async (id: number) => {
+  const todasLasReservas = await prisma.reservas.findUnique({
+    where: { IDReserva: id },
+    include: {
+      canchas: true,
+      facturas: true,
+      suministrosadicionales: true,
+      usuarios: {
+        select: {
+          IDUsuario: true,
+          Nombre: true,
+          Apellido: true,
+          CorreoElectronico: true,
+          Telefono: true,
+        },
+      },
+    },
+  });
+  return todasLasReservas;
+};
+
+export const obtenerReservasUser= async (id: number) => {
+  const todasLasReservas = await prisma.reservas.findMany({
+    where: { IDUsuario: id },
+    include: {
+      canchas: true,
+      facturas: true,
+      suministrosadicionales: true,
+      usuarios: {
+        select: {
+          IDUsuario: true,
+          Nombre: true,
+          Apellido: true,
+          CorreoElectronico: true,
+          Telefono: true,
+        },
+      },
+    },
+  });
+  return todasLasReservas;
+};
+
+
 interface responseReserva {
   message: string;
   response?: any;

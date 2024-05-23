@@ -3,6 +3,8 @@ import {
   crearReserva,
   obtenerReservas,
   obtenerReservasCancha,
+  obtenerReservasUser,
+  obtenerUnaReserva,
   updateReserva,
 } from "../services/reservas";
 
@@ -27,6 +29,32 @@ export const obtenerReservasController = async (
 ) => {
   try {
     const response = await obtenerReservas();
+    res.send(response);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const obtenerUnaReservaController = async (
+  req: Request,
+  res: Response
+) => {
+  const id = parseInt(req.params.id);
+  try {
+    const response = await obtenerUnaReserva(id);
+    res.send(response);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const obtenerReservasUserController= async (
+  req: Request,
+  res: Response
+) => {
+  const id = parseInt(req.params.id);
+  try {
+    const response = await obtenerReservasUser(id);
     res.send(response);
   } catch (error) {
     console.error(error);
