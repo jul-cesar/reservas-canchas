@@ -7,8 +7,9 @@ import { suministrosRutas } from "./routes/suministros.route";
 import { notificacionesRutas } from "./routes/notificaciones.route";
 import { facturasRutas } from "./routes/facturas.route";
 import { authRouter } from "./routes/auth.route";
+import { commentsRouter } from "./routes/comments.route";
 
-const PUERTO = 3000;
+const PUERTO = 4000;
 
 export const app = Express();
 app.use(Express.json());
@@ -25,6 +26,7 @@ app.use(suministrosRutas);
 app.use(notificacionesRutas);
 app.use(facturasRutas);
 app.use(authRouter);
+app.use(commentsRouter);
 
 app.listen(PUERTO, () => {
   console.log(`App corriendo en el puerto ${PUERTO}`);

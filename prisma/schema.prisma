@@ -8,9 +8,9 @@ datasource db {
 }
 
 model canchas {
-  IDCancha  Int      @id @default(autoincrement())
-  Nombre    String
-  createdAt DateTime @default(now())
+  IDCancha        Int            @id @default(autoincrement())
+  Nombre          String
+  createdAt       DateTime       @default(now())
   ImgURL          String?
   Direccion       String
   HoraApertura    String
@@ -23,6 +23,7 @@ model canchas {
   Disponibilidad  Disponibilidad
   Precio          Decimal        @db.Decimal(10, 3)
   reservas        reservas[]
+  comentarios     comentarios[]
 }
 
 enum TipoSuperficie {
@@ -119,9 +120,20 @@ model usuarios {
   DatosPago         String?          @db.VarChar(100)
   notificaciones    notificaciones[]
   reservas          reservas[]
+  comentarios       comentarios[] // Relation to comentarios
 }
 
 enum Rol {
   User
   Admin
+}
+
+model comentarios {
+  IDComentario Int      @id @default(autoincrement())
+  IDUsuario    Int
+  IDCancha     Int
+  Contenido    String
+  Fecha        DateTime @default(now())
+  usuarios     usuarios @relation(fields: [IDUsuario], references: [IDUsuario], onDelete: Cascade, onUpdate: Cascade)
+  canchas      canchas  @relation(fields: [IDCancha], references: [IDCancha], onDelete: Cascade, onUpdate: Cascade)
 }
